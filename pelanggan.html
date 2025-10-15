@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Pesanan Pelanggan</title>
+<style>
+body{font-family:Arial;padding:20px;background:#e0f7fa;}
+h1{text-align:center;margin-bottom:20px;}
+input,button{padding:10px;margin:5px;width:90%;}
+button{background:#4facfe;color:white;border:none;border-radius:8px;cursor:pointer;}
+button:hover{background:#00c6ff;}
+.container{max-width:400px;margin:auto;text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Form Pesanan Sepatu</h1>
+<input type="text" id="nama" placeholder="Nama Pelanggan">
+<input type="number" id="jumlah" placeholder="Jumlah Sepatu">
+<input type="number" id="harga" placeholder="Harga per Sepatu">
+<button onclick="tambahPesanan()">Kirim Pesanan</button>
+<p id="msg" style="color:green;font-weight:bold;margin-top:10px;"></p>
+</div>
+
+<script>
+function tambahPesanan(){
+  const nama = document.getElementById("nama").value.trim();
+  const jumlah = parseInt(document.getElementById("jumlah").value);
+  const harga = parseInt(document.getElementById("harga").value);
+  const msg = document.getElementById("msg");
+
+  if(!nama || !jumlah || !harga){ alert("Isi semua kolom!"); return; }
+
+  let transaksi = JSON.parse(localStorage.getItem("transaksi")) || [];
+  transaksi.push({
+    pelanggan: nama,
+    jumlah: jumlah,
+    harga: harga,
+    total: jumlah*harga,
+    status: "Sedang diproses"
+  });
+  localStorage.setItem("transaksi", JSON.stringify(transaksi));
+
+  msg.innerText = "Pesanan berhasil dikirim! ✅";
+  document.getElementById("nama").value = "";
+  document.getElementById("jumlah").value = "";
+  document.getElementById("harga").value = "";
+}
+</script>
+
+</body>
+</html>
